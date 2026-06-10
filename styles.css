@@ -1,0 +1,979 @@
+/* ===========================
+   DESIGN TOKENS
+   =========================== */
+:root {
+    /* Colors */
+    --gold-100: #fef9e7;
+    --gold-200: #fceabb;
+    --gold-300: #f6d365;
+    --gold-400: #d4a437;
+    --gold-500: #b8860b;
+    --gold-600: #96700a;
+    --gold-glow: rgba(212, 164, 55, 0.35);
+
+    --white: #ffffff;
+    --white-soft: #faf8f5;
+    --white-cream: #f5f0e8;
+    --ivory: #fffff0;
+
+    --dark-text: #3a2e1f;
+    --medium-text: #6b5b45;
+    --light-text: #9c8e7a;
+
+    /* Typography */
+    --font-display: 'Great Vibes', cursive;
+    --font-heading: 'Cormorant Garamond', serif;
+    --font-body: 'Lora', serif;
+
+    /* Transitions */
+    --transition-slow: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --transition-medium: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --transition-fast: 0.4s ease;
+}
+
+/* ===========================
+   RESET & BASE
+   =========================== */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    overflow: hidden;
+}
+
+body {
+    font-family: var(--font-body);
+    background: #0a0a0a;
+    color: var(--dark-text);
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===========================
+   PRELOADER
+   =========================== */
+#preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: linear-gradient(135deg, #1a1510 0%, #0d0b08 50%, #1a1510 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 1s ease, visibility 1s ease;
+}
+
+#preloader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.preloader-content {
+    text-align: center;
+}
+
+.cross-icon {
+    font-size: 3rem;
+    color: var(--gold-400);
+    margin-bottom: 1.5rem;
+    animation: pulse-glow 2s ease-in-out infinite;
+    text-shadow: 0 0 30px var(--gold-glow);
+}
+
+.preloader-text {
+    font-family: var(--font-heading);
+    color: var(--gold-300);
+    font-size: 1.1rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+}
+
+.preloader-bar {
+    width: 200px;
+    height: 2px;
+    background: rgba(212, 164, 55, 0.15);
+    border-radius: 2px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.preloader-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--gold-400), var(--gold-300));
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+/* ===========================
+   PLAY OVERLAY
+   =========================== */
+#play-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    background: linear-gradient(135deg, rgba(26, 21, 16, 0.97) 0%, rgba(13, 11, 8, 0.98) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+    cursor: pointer;
+}
+
+#play-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.play-overlay-content {
+    text-align: center;
+}
+
+.play-circle {
+    width: 100px;
+    height: 100px;
+    border: 2px solid var(--gold-400);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 2rem;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    animation: pulse-ring 2.5s ease-in-out infinite;
+}
+
+.play-circle:hover {
+    background: rgba(212, 164, 55, 0.15);
+    transform: scale(1.1);
+    box-shadow: 0 0 40px var(--gold-glow);
+}
+
+.play-circle svg {
+    width: 36px;
+    height: 36px;
+    color: var(--gold-400);
+    margin-left: 4px;
+}
+
+.play-text {
+    font-family: var(--font-heading);
+    color: var(--gold-300);
+    font-size: 1rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+
+/* ===========================
+   BOKEH CANVAS
+   =========================== */
+#bokeh-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+}
+
+/* ===========================
+   LIGHT LEAKS
+   =========================== */
+#light-leaks {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+#light-leaks::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -30%;
+    width: 80%;
+    height: 120%;
+    background: radial-gradient(ellipse, rgba(255, 230, 150, 0.08) 0%, transparent 70%);
+    animation: lightLeak1 12s ease-in-out infinite;
+}
+
+#light-leaks::after {
+    content: '';
+    position: absolute;
+    bottom: -40%;
+    left: -20%;
+    width: 70%;
+    height: 100%;
+    background: radial-gradient(ellipse, rgba(255, 215, 100, 0.06) 0%, transparent 70%);
+    animation: lightLeak2 15s ease-in-out infinite 3s;
+}
+
+/* ===========================
+   SCENES (General)
+   =========================== */
+.scene {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1.5s ease, visibility 1.5s ease;
+    z-index: 50;
+}
+
+.scene.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.scene-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+}
+
+.scene-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 2rem;
+    max-width: 700px;
+    width: 100%;
+    max-height: 100vh;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.scene-content::-webkit-scrollbar {
+    display: none;
+}
+
+/* ===========================
+   FADE ELEMENTS
+   =========================== */
+.fade-element {
+    opacity: 0;
+    transform: translateY(25px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.fade-element.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ===========================
+   SCENE 1: OPENING (Clouds)
+   =========================== */
+.clouds-bg {
+    background: linear-gradient(180deg, 
+        #e8ddd0 0%, 
+        #f5ede3 20%, 
+        #faf6f0 40%, 
+        #ffffff 60%, 
+        #faf6f0 80%, 
+        #f0e8db 100%
+    );
+    overflow: hidden;
+}
+
+.clouds-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+        radial-gradient(ellipse 600px 300px at 20% 30%, rgba(255,255,255,0.9) 0%, transparent 70%),
+        radial-gradient(ellipse 500px 250px at 70% 50%, rgba(255,255,255,0.8) 0%, transparent 70%),
+        radial-gradient(ellipse 800px 400px at 50% 70%, rgba(255,255,255,0.7) 0%, transparent 70%),
+        radial-gradient(ellipse 400px 200px at 80% 20%, rgba(245, 237, 227, 0.6) 0%, transparent 70%);
+    animation: cloudsDrift 25s ease-in-out infinite;
+}
+
+.clouds-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(212, 164, 55, 0.08) 0%, transparent 60%);
+}
+
+.cross-ornament {
+    font-size: 3.5rem;
+    color: var(--gold-400);
+    text-shadow: 0 0 40px var(--gold-glow), 0 2px 15px rgba(212, 164, 55, 0.2);
+    margin-bottom: 2rem;
+    line-height: 1;
+}
+
+.title-main {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 8vw, 5rem);
+    color: var(--gold-500);
+    font-weight: 400;
+    line-height: 1.2;
+    text-shadow: 0 2px 20px rgba(184, 134, 11, 0.2);
+    margin-bottom: 1.5rem;
+}
+
+.ornament-line {
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-400), transparent);
+    margin: 0 auto;
+    position: relative;
+}
+
+.ornament-line::before {
+    content: '◆';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.5rem;
+    color: var(--gold-400);
+}
+
+.ornament-line.gold {
+    width: 80px;
+    margin: 1.5rem auto;
+}
+
+/* ===========================
+   SCENE 2: PRAYER
+   =========================== */
+.prayer-bg {
+    background: linear-gradient(180deg, 
+        #f5ede3 0%, 
+        #faf6f0 30%, 
+        #fdfcfa 50%, 
+        #faf6f0 70%, 
+        #f0e8db 100%
+    );
+}
+
+.prayer-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 30%, rgba(212, 164, 55, 0.06) 0%, transparent 60%);
+}
+
+.prayer-card {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(212, 164, 55, 0.2);
+    border-radius: 20px;
+    padding: 3rem 2.5rem;
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    position: relative;
+    overflow: hidden;
+}
+
+.prayer-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold-400), transparent);
+}
+
+.prayer-cross {
+    font-size: 2.5rem;
+    color: var(--gold-400);
+    text-shadow: 0 0 30px var(--gold-glow);
+    margin-bottom: 2rem;
+}
+
+.prayer-text {
+    font-family: var(--font-heading);
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    color: var(--medium-text);
+    line-height: 1.9;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+    font-weight: 400;
+}
+
+.prayer-amen {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    color: var(--gold-500);
+    text-shadow: 0 2px 15px rgba(184, 134, 11, 0.15);
+    margin-top: 0.5rem;
+}
+
+/* ===========================
+   SCENES 3 & 4: CHILDREN
+   =========================== */
+.protagonists-bg {
+    background: linear-gradient(180deg, 
+        #faf6f0 0%, 
+        #fdfcfa 30%, 
+        #ffffff 50%, 
+        #fdfcfa 70%, 
+        #f5ede3 100%
+    );
+}
+
+.protagonists-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 40%, rgba(212, 164, 55, 0.05) 0%, transparent 60%);
+}
+
+.child-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.photo-frame {
+    position: relative;
+    padding: 12px;
+    display: inline-block;
+    animation: float 6s ease-in-out infinite;
+}
+
+.frame-border {
+    border: 2px solid var(--gold-400);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 
+        0 15px 50px rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(212, 164, 55, 0.1),
+        inset 0 0 30px rgba(212, 164, 55, 0.05);
+    position: relative;
+}
+
+.frame-border::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    box-shadow: inset 0 0 60px rgba(255, 255, 255, 0.1);
+    pointer-events: none;
+}
+
+.frame-border-wide {
+    border-radius: 16px;
+}
+
+.child-photo {
+    display: block;
+    width: 240px;
+    height: 320px;
+    object-fit: cover;
+    object-position: center top;
+    border-radius: 14px;
+    transition: transform 8s ease;
+}
+
+.photo-together {
+    width: 360px;
+    height: 300px;
+    object-position: center 20%;
+}
+
+.scene.active .child-photo {
+    transform: scale(1.05);
+}
+
+/* Frame ornaments */
+.frame-ornament {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-color: var(--gold-400);
+    border-style: solid;
+}
+
+.frame-ornament.top-left {
+    top: 0;
+    left: 0;
+    border-width: 2px 0 0 2px;
+    border-radius: 4px 0 0 0;
+}
+
+.frame-ornament.top-right {
+    top: 0;
+    right: 0;
+    border-width: 2px 2px 0 0;
+    border-radius: 0 4px 0 0;
+}
+
+.frame-ornament.bottom-left {
+    bottom: 0;
+    left: 0;
+    border-width: 0 0 2px 2px;
+    border-radius: 0 0 0 4px;
+}
+
+.frame-ornament.bottom-right {
+    bottom: 0;
+    right: 0;
+    border-width: 0 2px 2px 0;
+    border-radius: 0 0 4px 0;
+}
+
+.child-name {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 6vw, 3rem);
+    color: var(--gold-500);
+    font-weight: 400;
+    text-shadow: 0 2px 15px rgba(184, 134, 11, 0.15);
+    margin-top: 0.5rem;
+}
+
+.child-surname {
+    font-family: var(--font-heading);
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    color: var(--medium-text);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 300;
+}
+
+.padrinos-section {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(212, 164, 55, 0.2);
+}
+
+.padrinos-label {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    color: var(--gold-400);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+}
+
+.padrinos-names {
+    font-family: var(--font-heading);
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    color: var(--dark-text);
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+.padrinos-conjunction {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    color: var(--gold-400);
+    margin: 0.2rem 0;
+}
+
+/* ===========================
+   SCENE 5: TOGETHER + PARENTS
+   =========================== */
+.together-bg {
+    background: linear-gradient(180deg, 
+        #f5ede3 0%, 
+        #fdfcfa 40%, 
+        #fdfcfa 60%, 
+        #f5ede3 100%
+    );
+}
+
+.together-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 50%, rgba(212, 164, 55, 0.06) 0%, transparent 60%);
+}
+
+.together-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.parents-section {
+    margin-top: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(212, 164, 55, 0.2);
+    text-align: center;
+}
+
+.parents-label {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    color: var(--gold-400);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.parents-names {
+    font-family: var(--font-heading);
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    color: var(--dark-text);
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+/* ===========================
+   SCENE 6: CLOSING
+   =========================== */
+.closing-bg {
+    background: linear-gradient(180deg, 
+        #f0e8db 0%, 
+        #f5ede3 20%, 
+        #faf6f0 40%, 
+        #fdfcfa 50%, 
+        #faf6f0 60%, 
+        #f0e8db 80%, 
+        #e8ddd0 100%
+    );
+}
+
+.closing-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 30%, rgba(212, 164, 55, 0.1) 0%, transparent 50%);
+}
+
+.closing-card {
+    text-align: center;
+}
+
+.closing-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    color: var(--gold-500);
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 20px rgba(184, 134, 11, 0.2);
+}
+
+.detail-block {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(212, 164, 55, 0.15);
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03);
+}
+
+.detail-icon {
+    width: 36px;
+    height: 36px;
+    margin: 0 auto 0.8rem;
+    color: var(--gold-400);
+}
+
+.detail-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.detail-label {
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    color: var(--gold-400);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.detail-value {
+    font-family: var(--font-heading);
+    font-size: clamp(1.1rem, 3vw, 1.4rem);
+    color: var(--dark-text);
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.detail-address {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--medium-text);
+    margin-top: 0.5rem;
+    line-height: 1.5;
+}
+
+.closing-blessing {
+    font-family: var(--font-heading);
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    color: var(--medium-text);
+    font-style: italic;
+    font-weight: 400;
+}
+
+.closing-cross {
+    font-size: 2rem;
+    color: var(--gold-400);
+    margin-top: 1rem;
+    text-shadow: 0 0 25px var(--gold-glow);
+    animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* ===========================
+   PROGRESS BAR & DOTS
+   =========================== */
+#progress-container {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+#progress-container.visible {
+    opacity: 1;
+}
+
+#progress-bar {
+    width: 200px;
+    height: 2px;
+    background: rgba(212, 164, 55, 0.15);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+#progress-bar::after {
+    content: '';
+    display: block;
+    width: var(--progress, 0%);
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold-400), var(--gold-300));
+    border-radius: 2px;
+    transition: width 0.8s ease;
+}
+
+#scene-dots {
+    display: flex;
+    gap: 10px;
+}
+
+.scene-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(212, 164, 55, 0.2);
+    cursor: pointer;
+    transition: all 0.4s ease;
+    border: 1px solid transparent;
+}
+
+.scene-dot:hover {
+    background: rgba(212, 164, 55, 0.4);
+    transform: scale(1.2);
+}
+
+.scene-dot.active {
+    background: var(--gold-400);
+    box-shadow: 0 0 10px var(--gold-glow);
+    border-color: var(--gold-300);
+    transform: scale(1.2);
+}
+
+/* ===========================
+   NAVIGATION ARROWS
+   =========================== */
+.nav-arrow {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5000;
+    width: 48px;
+    height: 48px;
+    border: 1px solid rgba(212, 164, 55, 0.2);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    color: var(--gold-500);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.nav-arrow.visible {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.nav-arrow:hover {
+    background: rgba(212, 164, 55, 0.15);
+    border-color: var(--gold-400);
+    box-shadow: 0 0 20px var(--gold-glow);
+}
+
+.nav-arrow svg {
+    width: 20px;
+    height: 20px;
+}
+
+#nav-prev {
+    left: 20px;
+}
+
+#nav-next {
+    right: 20px;
+}
+
+/* ===========================
+   ANIMATIONS
+   =========================== */
+@keyframes pulse-glow {
+    0%, 100% { opacity: 0.8; text-shadow: 0 0 20px var(--gold-glow); }
+    50% { opacity: 1; text-shadow: 0 0 40px var(--gold-glow), 0 0 60px rgba(212, 164, 55, 0.15); }
+}
+
+@keyframes pulse-ring {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(212, 164, 55, 0.3); }
+    50% { box-shadow: 0 0 0 15px rgba(212, 164, 55, 0); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+@keyframes cloudsDrift {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(15px, -10px) scale(1.02); }
+    66% { transform: translate(-10px, 5px) scale(1.01); }
+}
+
+@keyframes lightLeak1 {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); opacity: 0.5; }
+    25% { transform: translate(-30px, 20px) rotate(5deg); opacity: 0.8; }
+    50% { transform: translate(20px, -30px) rotate(-3deg); opacity: 0.3; }
+    75% { transform: translate(-10px, 15px) rotate(2deg); opacity: 0.7; }
+}
+
+@keyframes lightLeak2 {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); opacity: 0.4; }
+    30% { transform: translate(25px, -15px) rotate(-4deg); opacity: 0.7; }
+    60% { transform: translate(-20px, 20px) rotate(3deg); opacity: 0.3; }
+    90% { transform: translate(10px, -10px) rotate(-2deg); opacity: 0.6; }
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+@media (max-width: 600px) {
+    .scene-content {
+        padding: 1.5rem 1rem;
+    }
+
+    .prayer-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .child-photo {
+        width: 200px;
+        height: 270px;
+    }
+
+    .photo-together {
+        width: 280px;
+        height: 240px;
+    }
+
+    .nav-arrow {
+        width: 40px;
+        height: 40px;
+    }
+
+    #nav-prev {
+        left: 10px;
+    }
+
+    #nav-next {
+        right: 10px;
+    }
+
+    .detail-block {
+        margin: 1.5rem 0;
+        padding: 1.2rem;
+    }
+
+    .frame-ornament {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+@media (max-width: 380px) {
+    .child-photo {
+        width: 170px;
+        height: 230px;
+    }
+
+    .photo-together {
+        width: 240px;
+        height: 200px;
+    }
+
+    .prayer-text {
+        font-size: 0.95rem;
+    }
+}
+
+/* Landscape on mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    .scene-content {
+        padding: 1rem;
+    }
+    
+    .child-photo {
+        width: 150px;
+        height: 200px;
+    }
+
+    .photo-together {
+        width: 240px;
+        height: 180px;
+    }
+
+    .prayer-card {
+        padding: 1.5rem;
+    }
+
+    .cross-ornament, .prayer-cross {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+}

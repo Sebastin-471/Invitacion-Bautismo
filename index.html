@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitación al Bautismo — Alannis & Nathan</title>
+    <meta name="description" content="Invitación al Bautismo de Alannis Amira y Nathan Koby Diaz Alvarado — 20 de Junio de 2026">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="preloader-content">
+            <div class="cross-icon">✝</div>
+            <p class="preloader-text">Preparando invitación...</p>
+            <div class="preloader-bar"><div class="preloader-fill"></div></div>
+        </div>
+    </div>
+
+    <!-- Play Button Overlay -->
+    <div id="play-overlay">
+        <div class="play-overlay-content">
+            <div class="play-circle" id="play-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+            </div>
+            <p class="play-text">Toca para ver la invitación</p>
+        </div>
+    </div>
+
+    <!-- Bokeh Particles Canvas -->
+    <canvas id="bokeh-canvas"></canvas>
+
+    <!-- Light Leaks Overlay -->
+    <div id="light-leaks"></div>
+
+    <!-- ===== SCENE 1: OPENING ===== -->
+    <section id="scene-1" class="scene">
+        <div class="scene-bg clouds-bg"></div>
+        <div class="scene-content">
+            <div class="cross-ornament fade-element">✝</div>
+            <h1 class="title-main fade-element" data-delay="800">Invitación al Bautismo</h1>
+            <div class="ornament-line fade-element" data-delay="1500"></div>
+        </div>
+    </section>
+
+    <!-- ===== SCENE 2: PRAYER ===== -->
+    <section id="scene-2" class="scene">
+        <div class="scene-bg prayer-bg"></div>
+        <div class="scene-content">
+            <div class="prayer-card fade-element">
+                <div class="prayer-cross">✝</div>
+                <p class="prayer-text fade-element" data-delay="500">
+                    Señor, hoy presentamos ante Ti a nuestros hijos que reciben el sacramento del Bautismo.
+                </p>
+                <p class="prayer-text fade-element" data-delay="1800">
+                    Te pedimos que derrames tu Espíritu Santo sobre ellos, los llenes de tu luz, los protejas siempre y los guíes por el camino del bien.
+                </p>
+                <p class="prayer-amen fade-element" data-delay="3200">Amén.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SCENE 3: ALANNIS ===== -->
+    <section id="scene-3" class="scene">
+        <div class="scene-bg protagonists-bg"></div>
+        <div class="scene-content">
+            <div class="child-card fade-element">
+                <div class="photo-frame frame-alannis fade-element" data-delay="400">
+                    <div class="frame-border">
+                        <img src="images/IMG-20260607-WA0023.jpg" alt="Alannis Amira" class="child-photo">
+                    </div>
+                    <div class="frame-ornament top-left"></div>
+                    <div class="frame-ornament top-right"></div>
+                    <div class="frame-ornament bottom-left"></div>
+                    <div class="frame-ornament bottom-right"></div>
+                </div>
+                <h2 class="child-name fade-element" data-delay="1000">Alannis Amira</h2>
+                <p class="child-surname fade-element" data-delay="1400">Diaz Alvarado</p>
+                <div class="padrinos-section fade-element" data-delay="1900">
+                    <p class="padrinos-label">Padrinos</p>
+                    <p class="padrinos-names">Moises Becerra Alvarado</p>
+                    <p class="padrinos-conjunction">y</p>
+                    <p class="padrinos-names">Carmen Julia Alvarado Sandoval</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SCENE 4: NATHAN ===== -->
+    <section id="scene-4" class="scene">
+        <div class="scene-bg protagonists-bg"></div>
+        <div class="scene-content">
+            <div class="child-card fade-element">
+                <div class="photo-frame frame-nathan fade-element" data-delay="400">
+                    <div class="frame-border">
+                        <img src="images/IMG-20260607-WA0024.jpg" alt="Nathan Koby" class="child-photo">
+                    </div>
+                    <div class="frame-ornament top-left"></div>
+                    <div class="frame-ornament top-right"></div>
+                    <div class="frame-ornament bottom-left"></div>
+                    <div class="frame-ornament bottom-right"></div>
+                </div>
+                <h2 class="child-name fade-element" data-delay="1000">Nathan Koby</h2>
+                <p class="child-surname fade-element" data-delay="1400">Diaz Alvarado</p>
+                <div class="padrinos-section fade-element" data-delay="1900">
+                    <p class="padrinos-label">Padrinos</p>
+                    <p class="padrinos-names">Jorge Fidel Chavez Gonzales</p>
+                    <p class="padrinos-conjunction">y</p>
+                    <p class="padrinos-names">Liset Sinthya Diaz Serpa</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SCENE 5: BOTH CHILDREN + PARENTS ===== -->
+    <section id="scene-5" class="scene">
+        <div class="scene-bg together-bg"></div>
+        <div class="scene-content">
+            <div class="together-card fade-element">
+                <div class="photo-frame frame-together fade-element" data-delay="400">
+                    <div class="frame-border frame-border-wide">
+                        <img src="images/IMG-20260607-WA0022.jpg" alt="Alannis y Nathan juntos" class="child-photo photo-together">
+                    </div>
+                    <div class="frame-ornament top-left"></div>
+                    <div class="frame-ornament top-right"></div>
+                    <div class="frame-ornament bottom-left"></div>
+                    <div class="frame-ornament bottom-right"></div>
+                </div>
+                <div class="parents-section fade-element" data-delay="1200">
+                    <p class="parents-label">Con el amor y la bendición de sus padres</p>
+                    <p class="parents-names">Fran Z. Rodwin Dias Serpa</p>
+                    <p class="padrinos-conjunction">&</p>
+                    <p class="parents-names">Hilda Luz Alvarado Sandoval</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SCENE 6: CLOSING / DETAILS ===== -->
+    <section id="scene-6" class="scene">
+        <div class="scene-bg closing-bg"></div>
+        <div class="scene-content">
+            <div class="closing-card fade-element">
+                <h2 class="closing-title fade-element" data-delay="300">¡Te esperamos para celebrar!</h2>
+                <div class="ornament-line gold fade-element" data-delay="700"></div>
+                
+                <div class="detail-block fade-element" data-delay="1100">
+                    <div class="detail-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                    </div>
+                    <p class="detail-label">Fecha</p>
+                    <p class="detail-value">20 de Junio de 2026</p>
+                </div>
+
+                <div class="detail-block fade-element" data-delay="1600">
+                    <div class="detail-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                    </div>
+                    <p class="detail-label">Recepción</p>
+                    <p class="detail-value">Después de la misa, acompáñanos en nuestra casa</p>
+                    <p class="detail-address">UCV. 106 Lote 25, Zona G, Huaycán</p>
+                </div>
+
+                <div class="ornament-line gold fade-element" data-delay="2100"></div>
+                <p class="closing-blessing fade-element" data-delay="2400">Con amor y fe, los esperamos</p>
+                <div class="closing-cross fade-element" data-delay="2700">✝</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Progress Bar -->
+    <div id="progress-container">
+        <div id="progress-bar"></div>
+        <div id="scene-dots">
+            <span class="scene-dot active" data-scene="1"></span>
+            <span class="scene-dot" data-scene="2"></span>
+            <span class="scene-dot" data-scene="3"></span>
+            <span class="scene-dot" data-scene="4"></span>
+            <span class="scene-dot" data-scene="5"></span>
+            <span class="scene-dot" data-scene="6"></span>
+        </div>
+    </div>
+
+    <!-- Navigation Arrows -->
+    <button id="nav-prev" class="nav-arrow" title="Anterior">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+    </button>
+    <button id="nav-next" class="nav-arrow" title="Siguiente">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 6 15 12 9 18"></polyline>
+        </svg>
+    </button>
+
+    <script src="script.js"></script>
+</body>
+</html>
